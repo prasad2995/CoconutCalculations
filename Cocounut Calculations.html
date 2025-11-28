@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kobarikayalu, Karchulu & Final Amount</title>
+  <style>
+    :root {
+      --bg: #f7fafc;
+      --card: #ffffff;
+      --text: #1a202c;
+      --muted: #4a5568;
+      --accent: #047857;
+      --accent-2: #0ea5e9;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, "Noto Sans Telugu", "Noto Sans", sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.5;
+	  max-width: 700px;
+    }
+    .wrap { max-width: 680px; margin: 40px auto; padding: 16px; }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+      overflow: hidden;
+	  border-radius: 15px;
+    }
+    header {
+      padding: 20px 24px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #fff;
+    }
+    header h1 { margin: 0; font-size: 1.6rem; }
+    .content { padding: 24px; border-radius: 12px; }
+    .grid { display: grid; grid-template-columns: 1fr 200px; gap: 12px; align-items: center; }
+    label { font-weight: 600; }
+    .muted { color: var(--muted); font-weight: 400; }
+    input[type="number"], input[readonly] {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 1rem; background: #fff;
+    }
+    input[readonly] { background: #f9fafb; color: #111827; font-weight: 600; }
+    .row { margin-top: 16px; }
+    .hr { border-top: 1px dashed var(--border); margin: 8px 0 16px; }
+    .total {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 10px;
+      font-size: 1.1rem; font-weight: 700;
+    }
+    .help { font-size: 0.92rem; color: var(--muted); margin-top: 8px; }
+    .footer { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
+    .btns { display: flex; gap: 10px; margin-top: 12px; }
+    button { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; }
+    button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+<!-- Section 1: Kobarikayalu -->
+<div class="section">
+<header>Kobarikayalu</header>
+<div class="content">
+  <div class="grid">
+    <label for="asalu">Kobarikayalu Asalu<br><span class="muted">మొత్తం కొబ్బరికాయలు (Total)</span></label>
+	<input id="asalu" name="asalu" type="number" inputmode="numeric" min="0" step="1" value="0" />
+  </div>
+  <div class="grid">
+    <label for="senagalu">Senagalu (−)<br><span class="muted">తీసేయవలసినవి 100 కి</span></label>
+    <input id="senagalu100" type="number" value="0" />
+  </div>
+  <div class="grid">
+    <label for="senagalu">Senagalu (−)<br><span class="muted">సెనగలు మొత్తం</span></label>
+    <input id="senagalu" type="number" readonly />
+  </div>
+  <div class="grid">
+    <label>Kobarikayalu Final <br><span class="muted">మొత్తం కాయలు సెనగలు తీసిన తర్వాత</span></label>
+    <input id="finalCount" type="number" readonly />
+  </div>
+  <div class="grid">
+    <label>Rate (₹) <br><span class="muted">రేటు 1000 కాయలకు</span></label> 
+    <input id="rate" type="number" value="0" />
+  </div>
+  <div class="total">
+    <span>Final Amount for Kayalu</span>
+    <span id="finalAmount">₹ 0.00</span>
+  </div>
+</div>
+</div>
+</div>
+</div>
+  <div class="wrap">
+    <div class="card">
+<!-- Section 2: Karchulu -->
+<div class="section">
+<header>Karchulu</header>
+<div class="content">
+  <div class="grid">
+    <label>Dimpu Per Coconut</label>
+    <input id="dimpuPer" type="number" value="2" />
+  </div>
+  <div class="grid">
+    <label>Dimpu Valaki</label>
+    <input id="dimpuValaki" type="number" readonly />
+  </div>
+  <div class="grid">
+    <label>Labour Expenses</label>
+    <input id="labour" type="number" value="0" />
+  </div>
+  <div class="grid">
+    <label>Transport Expenses</label>
+    <input id="transport" type="number" value="0" />
+  </div>
+  <div class="grid">
+    <label>Other Expenses</label>
+    <input id="other" type="number" value="0" />
+  </div>
+  <div class="total">
+    <span>Expenses Final</span>
+    <span id="expensesFinal">₹ 0.00</span>
+  </div>
+</div>
+</div>
+</div>
+</div>
+  <div class="wrap">
+    <div class="card">
+<!-- Section 3: Final Amount -->
+<div class="section">
+<header>Final Amount</header>
+<div class="content">
+  <div class="grid">
+    <label>Amount from Kayalu</label>
+    <input id="amountKayalu" type="text" readonly />
+  </div>
+  <div class="grid">
+    <label>Karchulu (-)</label>
+    <input id="amountKarchulu" type="text" readonly />
+  </div>
+  <div class="grid">
+    <label>Amount after Karchulu</label>
+    <input id="afterKarchulu" type="text" readonly />
+  </div>
+  <div class="grid">
+    <label>Taith (10% of Amount after Karchulu)</label>
+    <input id="taith" type="text" readonly />
+  </div>
+  <div class="total">
+    <span>Final Amount</span>
+    <span id="finalTotal">₹ 0.00</span>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+function toNumber(id){
+  const el = document.getElementById(id);
+  if (!el) return 0;
+  const v = parseFloat(el.value.toString().replace(/[^0-9.-]/g,''));
+  return isNaN(v) ? 0 : v;
+}
+function formatINR(n){ return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR'}).format(n); }
+
+function recalc(){
+  // Section 1: Kobarikayalu
+  const asalu = toNumber('asalu');
+  const senagalu100 = toNumber('senagalu100');
+  let senagalu = 0;
+  if(senagalu100 > 0){ senagalu = Math.ceil(asalu * (senagalu100/100)); }
+  document.getElementById('senagalu').value = senagalu;
+
+  const rate = toNumber('rate');
+  const finalCount = Math.max(0, asalu - senagalu);
+  document.getElementById('finalCount').value = finalCount;
+
+  const kayaluAmount = finalCount * (rate/1000);
+  document.getElementById('finalAmount').textContent = formatINR(kayaluAmount);
+
+  // Section 2: Karchulu
+  const dimpuPer = toNumber('dimpuPer'), labour = toNumber('labour'), transport = toNumber('transport'), other = toNumber('other');
+  const dimpuValaki = asalu * dimpuPer;
+  document.getElementById('dimpuValaki').value = dimpuValaki;
+
+  const karchuluAmount = dimpuValaki + labour + transport + other;
+  document.getElementById('expensesFinal').textContent = formatINR(karchuluAmount);
+
+  // Section 3: Final Amount
+  document.getElementById('amountKayalu').value = formatINR(kayaluAmount);
+  document.getElementById('amountKarchulu').value = formatINR(karchuluAmount);
+
+  const afterKarchulu = kayaluAmount - karchuluAmount;
+  document.getElementById('afterKarchulu').value = formatINR(afterKarchulu);
+
+  // Taith = 10% of Amount after Karchulu (auto, readonly)
+  const taithAmount = afterKarchulu * 0.10;
+  document.getElementById('taith').value = formatINR(taithAmount);
+
+  const finalTotal = afterKarchulu - taithAmount;
+  document.getElementById('finalTotal').textContent = formatINR(finalTotal);
+}
+
+['asalu','senagalu100','rate','dimpuPer','labour','transport','other'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', recalc);
+});
+recalc();
+</script>
+
+</body>
+</html>
