@@ -38,10 +38,10 @@
     label { font-weight: 600; }
     .muted { color: var(--muted); font-weight: 400; }
     input[type="number"], input[readonly] {
-      width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+      width: 45%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
       font-size: 1rem; background: #fff;
     }
-    input[readonly] { background: #f9fafb; color: #111827; font-weight: 600; }
+	input[amount] { background: #f9fafb; color: #111827; font-weight: 600; }
     .row { margin-top: 16px; }
     .hr { border-top: 1px dashed var(--border); margin: 8px 0 16px; }
     .total {
@@ -70,7 +70,7 @@
   </div>
   <div class="grid">
     <label for="senagalu">Senagalu (−)<br><span class="muted">తీసేయవలసినవి 100 కి</span></label>
-    <input id="senagalu100" type="number" value="0" />
+    <input id="senagalu100" type="number" inputmode="numeric" min="0" step="1" value="0" />
   </div>
   <div class="grid">
     <label for="senagalu">Senagalu (−)<br><span class="muted">సెనగలు మొత్తం</span></label>
@@ -82,7 +82,7 @@
   </div>
   <div class="grid">
     <label>Rate (₹) <br><span class="muted">రేటు 1000 కాయలకు</span></label> 
-    <input id="rate" type="number" value="0" />
+    <input id="rate" type="number" inputmode="numeric" min="0" step="1" value="0" />
   </div>
   <div class="total">
     <span>Final Amount for Kayalu</span>
@@ -100,7 +100,7 @@
 <div class="content">
   <div class="grid">
     <label>Dimpu Per Coconut</label>
-    <input id="dimpuPer" type="number" value="2" />
+    <input id="dimpuPer" type="number" inputmode="numeric" min="0" step="1" value="0" />
   </div>
   <div class="grid">
     <label>Dimpu Valaki</label>
@@ -108,15 +108,15 @@
   </div>
   <div class="grid">
     <label>Labour Expenses</label>
-    <input id="labour" type="number" value="0" />
+    <input id="labour" type="number" inputmode="numeric" min="0" step="1" value="0" />
   </div>
   <div class="grid">
     <label>Transport Expenses</label>
-    <input id="transport" type="number" value="0" />
+    <input id="transport" type="number" inputmode="numeric" min="0" step="1" value="0" />
   </div>
   <div class="grid">
     <label>Other Expenses</label>
-    <input id="other" type="number" value="0" />
+    <input id="other" type="number" inputmode="numeric" min="0" step="1" value="0" />
   </div>
   <div class="total">
     <span>Expenses Final</span>
@@ -134,19 +134,19 @@
 <div class="content">
   <div class="grid">
     <label>Amount from Kayalu</label>
-    <input id="amountKayalu" type="text" readonly />
+    <input id="amountKayalu" style="width: 75%; " type="text" readonly />
   </div>
   <div class="grid">
     <label>Karchulu (-)</label>
-    <input id="amountKarchulu" type="text" readonly />
+    <input id="amountKarchulu" style="width: 75%;  type="text" readonly />
   </div>
   <div class="grid">
     <label>Amount after Karchulu</label>
-    <input id="afterKarchulu" type="text" readonly />
+    <input id="afterKarchulu" style="width: 75%;  type="text" readonly />
   </div>
   <div class="grid">
     <label>Taith (10% of Amount after Karchulu)</label>
-    <input id="taith" type="text" readonly />
+    <input id="taith" style="width: 75%;  type="text" readonly />
   </div>
   <div class="total">
     <span>Final Amount</span>
