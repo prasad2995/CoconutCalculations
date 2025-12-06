@@ -18,188 +18,203 @@
     body {
       margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans Telugu", "Noto Sans", sans-serif;
       background: var(--bg); color: var(--text);
-      line-height: 1.5;
+      line-height: 1.45;
     }
-    .wrap { max-width: 680px; margin: 20px auto; padding: 16px; }
+
+    /* outer page container */
+    .wrap { max-width: 720px; margin: 16px auto; padding: 12px; }
     .card {
       background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.06); overflow: hidden; border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06); overflow: hidden;
     }
-    header { padding: 16px 20px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #fff; }
-    header h1 { margin: 0; font-size: 1.6rem; }
-    .content { padding: 12px; border-radius: 12px; }
-    .grid { display: grid; grid-template-columns: 1fr 200px; gap: 20px; align-items: center; margin-bottom:8px; }
-    label { font-weight: 600; }
-    .muted { color: var(--muted); font-weight: 400; }
-    input[type="number"], input[readonly], input[type="text"] {
-      width: 45%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
-      font-size: 1rem; background: #fff;
+    header { padding: 12px 16px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #fff; font-weight:700; }
+    .content { padding: 10px 14px; }
+    .grid { display: grid; grid-template-columns: 1fr 220px; gap: 14px; align-items: center; margin-bottom:6px; }
+    label { font-weight: 700; font-size: 0.95rem; }
+    .muted { color: var(--muted); font-weight: 400; font-size:0.9rem; }
+    input[type="number"], input[readonly], input[type="text"], textarea {
+      width: 45%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 0.95rem; background: #fff;
     }
-    .row { margin-top: 16px; }
-    .hr { border-top: 1px dashed var(--border); margin: 8px 0 16px; }
+    input.small { width: 35%; }
+    .row { margin-top: 12px; }
     .total {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 16px; background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 10px;
-      font-size: 1.1rem; font-weight: 700;
+      padding: 12px 14px; background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 8px;
+      font-size: 1.02rem; font-weight: 700; margin-top:6px;
     }
-    .help { font-size: 0.92rem; color: var(--muted); margin-top: 8px; }
-    .footer { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
-    .btns { display: flex; gap: 10px; margin-top: 12px; flex-wrap:wrap; }
-    button { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; background:#fff; }
+    .btns { display: flex; gap: 10px; margin-top: 10px; flex-wrap:wrap; }
+    button { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; background:#fff; font-weight:700; }
     button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-    button.secondary { background: var(--accent-2); color: #fff; border-color: var(--accent-2); }
+    .meta-row { display:flex; gap:12px; align-items:center; margin:8px 0 6px; flex-wrap:wrap; }
+    .meta-row .item { display:flex; flex-direction:column; gap:6px; }
 
-    /* Top header */
-    .top-header { text-align: center; margin: 12px 0 18px; line-height: 1.15; }
-    .top-header h1 { margin: 3px 0; color: red; font-size: 1.5rem; font-weight:800; }
-    .top-header h3 { margin: 2px 0; font-size: 1rem; font-weight:700; }
-    .top-header .blue { color: blue; }
+    /* header text */
+    .bill-header { text-align:center; padding:10px 6px; }
+    .bill-header h1 { margin:4px 0; color: #b91c1c; font-size:1.2rem; font-weight:900; }
+    .bill-header h3 { margin:2px 0; font-size:0.98rem; font-weight:700; }
 
-    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } .wrap{padding:12px;} }
+    /* responsive - make inputs and labels smaller on phones and keep two-column layout */
+    @media (max-width: 520px) {
+      .grid { grid-template-columns: 1fr 140px; gap:10px; }
+      label { font-size: 0.88rem; }
+      input[type="number"], input[readonly], input[type="text"] { width: 55%; padding:6px 8px; font-size:0.9rem; }
+      .total { padding: 10px 12px; font-size:1rem; }
+      .btns button { padding:8px 10px; font-size:0.9rem; }
+      .meta-row { gap:8px; }
+      .meta-row .item { min-width: 120px; }
+    }
 
-    /* Default print styles (will be applied in print window too) */
+    @media (max-width: 380px) {
+      .grid { grid-template-columns: 1fr 120px; gap:8px; }
+      input[type="number"], input[readonly], input[type="text"] { width: 60%; }
+      label { font-size: 0.86rem; }
+    }
+
+    /* print styles */
     @media print {
+      @page { size:A4; margin: 12mm; }
       html, body { background: #fff; color: #000; }
       body { margin: 0; }
       .btns, .no-print { display: none !important; }
       .card { box-shadow: none; border: none; border-radius: 0; }
-      header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .top-header h1, .top-header h3 { color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      /* improve spacing for print */
       .wrap { margin: 0; padding: 8mm; max-width: none; }
-      .content { padding: 6px; }
-      .grid { gap: 10px; }
-      input { border: 1px solid #ddd; }
+      input, textarea { border: 1px solid #ddd; }
     }
   </style>
 </head>
 <body>
 
-<!-- TOP HEADER -->
-<div class="wrap" id="bill"> <!-- capture area for printing/pdf -->
-  <div class="top-header card" style="padding:12px 18px;">
-    <h3 style="font-size:1.05rem; margin:6px 0;">కొనుబడి బిల్లు</h3>
-    <h2 style="margin:6px 0; color: red; font-size:1.3rem; font-weight:800;">గీతా ప్రనూష కోనసీమ కోకోనట్ బిజినెస్</h2>
-    <h3 class="blue" style="margin:4px 0;">మగటపల్లి</h3>
-    <h3 style="margin:4px 0; color:#000;">ప్రో: గుండాబత్తుల ప్రసాద్</h3>
-    <h3 style="margin:4px 0; color:#000;">సెల్: 9177682498, 9963153332</h3>
-  </div>
+<!-- capture area for printing/pdf -->
+<div class="wrap" id="bill">
 
-  <!-- Section 1 -->
-  <div class="wrap" style="padding:0; margin-top:12px;">
-    <div class="card">
-      <div class="section">
-        <header>కొబ్బరికాయలు</header>
-        <div class="content">
-          <div class="grid">
-            <label for="asalu">మొత్తం కొబ్బరిగా(Asalu)</label>
-            <input id="asalu" name="asalu" type="number" inputmode="numeric" min="0" step="1" value="0" />
-          </div>
-          <div class="grid">
-            <label for="senagalu">సెనగలు తీసేయవలసినవి (పెర్సెంట్ %)</label>
-            <input id="senagalu100" type="number" inputmode="numeric" min="0" step="1" value="0" />
-          </div>
-          <div class="grid">
-            <label for="senagalu">సెనగలు తీసినవి మొత్తం</label>
-            <input id="senagalu" type="number" readonly />
-          </div>
-          <div class="grid">
-            <label>మొత్తం కాయలు (సెనగలు తీసిన తర్వాత)</label>
-            <input id="finalCount" type="number" readonly />
-          </div>
-          <div class="grid">
-            <label>రేటు (₹) 1000 కాయలకు</label>
-            <input id="rate" type="number" inputmode="numeric" min="0" step="1" value="0" />
-          </div>
-          <div style="height:6px"></div>
-          <div class="total">
-            <span>మొత్తం రుసుము</span>
-            <span id="finalAmount">₹ 0.00</span>
-          </div>
-        </div>
+  <!-- header -->
+  <div class="card" style="padding:10px; margin-bottom:10px;">
+    <div class="bill-header">
+      <h3>కొనుబడి బిల్లు</h3>
+      <h1>గీతా ప్రనూష కోనసీమ కోకోనట్ బిజినెస్</h1>
+      <h3> మగటపల్లి</h3>
+      <div style="font-weight:700; margin-top:6px;">ప్రో: గుండాబత్తుల ప్రసాద్ | సెల్: 9177682498, 9963153332</div>
+    </div>
+
+    <!-- customer name + date -->
+    <div class="meta-row" style="margin-top:8px;">
+      <div class="item" style="flex:1;">
+        <label style="font-size:0.95rem;">కొనుగోలుదారు పేరు</label>
+        <input id="customerName" type="text" placeholder="కొనుగోలుదారు పేరు" />
+      </div>
+
+      <div class="item" style="width:180px;">
+        <label style="font-size:0.95rem;">తేదీ</label>
+        <!-- readonly text showing full date so year is always visible -->
+        <input style="width:100px;" id="billDate" type="text" readonly />
       </div>
     </div>
   </div>
 
-  <!-- Section 2 -->
-  <div class="wrap" style="padding:0; margin-top:12px;">
-    <div class="card">
-      <div class="section">
-        <header>ఖర్చులు</header>
-        <div class="content">
-          <div class="grid">
-            <label>దింపు ఒక్క కొబ్బరికాయకి</label>
-            <input id="dimpuPer" type="number" inputmode="numeric" min="0" step="1" value="0" />
-          </div>
-          <div class="grid">
-            <label>దింపు మొత్తం (కాయలకు)</label>
-            <input id="dimpuValaki" type="number" readonly />
-          </div>
-          <div class="grid">
-            <label>లేబర్ ఖర్చులు</label>
-            <input id="labour" type="number" inputmode="numeric" min="0" step="1" value="0" />
-          </div>
-          <div class="grid">
-            <label>ట్రాన్స్‌పోర్ట్ ఖర్చులు</label>
-            <input id="transport" type="number" inputmode="numeric" min="0" step="1" value="0" />
-          </div>
-          <div class="grid">
-            <label>ఇతర ఖర్చులు</label>
-            <input id="other" type="number" inputmode="numeric" min="0" step="1" value="0" />
-          </div>
-          <div style="height:6px"></div>
-          <div class="total">
-            <span>మొత్తం ఖర్చులు</span>
-            <span id="expensesFinal">₹ 0.00</span>
-          </div>
-        </div>
+  <!-- Section 1: Kobarikayalu -->
+  <div class="card" style="margin-bottom:10px;">
+    <header>కొబ్బరికాయలు</header>
+    <div class="content">
+      <div class="grid">
+        <label for="asalu">మొత్తం కొబ్బరికాయలు</label>
+        <input id="asalu" name="asalu" type="number" inputmode="numeric" min="0" step="1" value="0" />
+      </div>
+      <div class="grid">
+        <label for="senagalu100">సెనగలు తీసేయవలసినవి (%)</label>
+        <input id="senagalu100" type="number" inputmode="numeric" min="0" step="1" value="0" />
+      </div>
+      <div class="grid">
+        <label for="senagalu">సెనగలు మొత్తం</label>
+        <input id="senagalu" type="number" readonly />
+      </div>
+      <div class="grid">
+        <label>మొత్తం కాయలు (సెనగలు తీసిన తర్వాత)</label>
+        <input id="finalCount" type="number" readonly />
+      </div>
+      <div class="grid">
+        <label>రేటు (₹) 1000 కాయలకు</label>
+        <input id="rate" type="number" inputmode="numeric" min="0" step="1" value="0" />
+      </div>
+
+      <div class="total">
+        <span>మొత్తం రుసుము</span>
+        <span id="finalAmount">₹ 0.00</span>
       </div>
     </div>
   </div>
 
-  <!-- Section 3 -->
-  <div class="wrap" style="padding:0; margin-top:12px; margin-bottom:20px;">
-    <div class="card">
-      <div class="section">
-        <header>మొత్తం రుసుము</header>
-        <div class="content">
-          <div class="grid">
-            <label>కాయలు రుసుము</label>
-            <input id="amountKayalu" style="width:75%" type="text" readonly />
-          </div>
-          <div class="grid">
-            <label>ఖర్చులు మొత్తంగా</label>
-            <input id="amountKarchulu" style="width:75%" type="text" readonly />
-          </div>
-          <div style="height:6px"></div>
-          <div class="total">
-            <span>Final Amount</span>
-            <span id="finalTotal">₹ 0.00</span>
-          </div>
-        </div>
+  <!-- Section 2: Karchulu -->
+  <div class="card" style="margin-bottom:10px;">
+    <header>ఖర్చులు</header>
+    <div class="content">
+      <div class="grid">
+        <label>దింపు ఒక్క కొబ్బరికాయకి</label>
+        <input id="dimpuPer" type="number" inputmode="numeric" min="0" step="1" value="0" />
+      </div>
+      <div class="grid">
+        <label>దింపు మొత్తం (కాయలకు)</label>
+        <input id="dimpuValaki" type="number" readonly />
+      </div>
+      <div class="grid">
+        <label>లేబర్ ఖర్చులు</label>
+        <input id="labour" type="number" inputmode="numeric" min="0" step="1" value="0" />
+      </div>
+      <div class="grid">
+        <label>ట్రాన్స్‌పోర్ట్ ఖర్చులు</label>
+        <input id="transport" type="number" inputmode="numeric" min="0" step="1" value="0" />
+      </div>
+      <div class="grid">
+        <label>ఇతర ఖర్చులు</label>
+        <input id="other" type="number" inputmode="numeric" min="0" step="1" value="0" />
+      </div>
+
+      <div class="total">
+        <span>మొత్తం ఖర్చులు</span>
+        <span id="expensesFinal">₹ 0.00</span>
       </div>
     </div>
   </div>
 
-  <!-- ACTIONS -->
-  <div class="card" style="padding:12px 16px; display:flex; align-items:center; gap:12px; margin-top:12px;">
+  <!-- Section 3: Final Amount -->
+  <div class="card" style="margin-bottom:18px;">
+    <header>మొత్తం రుసుము</header>
+    <div class="content">
+      <div class="grid">
+        <label>కాయలు రుసుము</label>
+        <input id="amountKayalu" style="width:75%" type="text" readonly />
+      </div>
+      <div class="grid">
+        <label>ఖర్చులు మొత్తంగా</label>
+        <input id="amountKarchulu" style="width:75%" type="text" readonly />
+      </div>
+
+      <div class="total">
+        <span>Final Amount</span>
+        <span id="finalTotal">₹ 0.00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- actions -->
+  <div class="card" style="padding:10px 12px; margin-bottom:12px; display:flex; align-items:center;">
     <div style="font-weight:700;">Bill actions</div>
     <div class="btns no-print" style="margin-left:auto;">
-      <!--button onclick="doPrint('A4')" title="Open print dialog prepared for A4">Print (A4)</button>
-      <button onclick="doPrint('A5')" title="Open print dialog prepared for A5">Print (A5)</button-->
-      <button class="primary" onclick="generatePDF('A5')" title="Generate & download A5 PDF">Generate PDF</button>
+      <button onclick="doPrint('A4')">Print (A4)</button>
+      <button onclick="doPrint('A5')">Print (A5)</button>
+      <button class="primary" onclick="generatePDF('A4')">Generate PDF (A4)</button>
     </div>
   </div>
 
-<br>
-
-  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:20px;">
+  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:24px;">
     Generated on: <span id="generatedDate"></span>
   </div>
-</div> <!-- end capture area -->
 
-<!-- === Calculation logic (unchanged) === -->
+</div> <!-- end #bill -->
+
+<!-- Scripts -->
 <script>
+/* helpers */
 function toNumber(id){
   const el = document.getElementById(id);
   if (!el) return 0;
@@ -208,6 +223,7 @@ function toNumber(id){
 }
 function formatINR(n){ return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR'}).format(n); }
 
+/* recalc logic (unchanged) */
 function recalc(){
   const asalu = toNumber('asalu');
   const senagalu100 = toNumber('senagalu100');
@@ -238,149 +254,137 @@ function recalc(){
   document.getElementById('generatedDate').textContent = new Date().toLocaleString('en-IN');
 }
 
+/* wire inputs */
 ['asalu','senagalu100','rate','dimpuPer','labour','transport','other'].forEach(id=>{
   document.getElementById(id).addEventListener('input', recalc);
 });
 recalc();
-</script>
 
-<!-- === Printing functions (A4 / A5) === -->
-<script>
-/**
- * Open a print window for chosen paper size ('A4' or 'A5').
- * It clones the #bill node into a new window and inserts an @page rule for size.
- */
+/* bill date display (text showing full date DD-MM-YYYY) */
+(function initDate(){
+  const d = new Date();
+  const pad = n => n.toString().padStart(2,'0');
+  const dd = pad(d.getDate()), mm = pad(d.getMonth()+1), yyyy = d.getFullYear();
+  const dateStr = `${dd}-${mm}-${yyyy}`;
+  const el = document.getElementById('billDate');
+  if (el) el.value = dateStr;
+})();
+
+/* --- Printing: clone content into a new window and set @page size --- */
 function doPrint(size = 'A4') {
   const el = document.getElementById('bill');
   if (!el) return alert('No bill found to print.');
-
-  // prepare content
   const content = el.outerHTML;
-  // collect inline <style> rules on the current page (so print window keeps same styles)
-  const styles = Array.from(document.querySelectorAll('style')).map(s => s.outerHTML).join('\n') +
-                 Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(l => l.outerHTML).join('\n');
 
-  const pageStyle = `<style>
-    @page { size: ${size}; margin: 12mm; }
-    html,body { height: auto; }
-    /* hide action buttons in print window */
-    .no-print, .btns { display: none !important; }
-    /* ensure good print colors */
-    .top-header h2, .top-header h3 { color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  </style>`;
+  // gather <style> nodes so the print window keeps the styles
+  const styles = Array.from(document.querySelectorAll('style')).map(s => s.outerHTML).join('\n');
+
+  // page style: size depends on requested paper
+  const pageStyle = `<style>@page { size: ${size}; margin: 12mm; } .no-print, .btns { display: none !important; } </style>`;
 
   const win = window.open('', '_blank', 'noopener,width=900,height=1200');
   win.document.open();
   win.document.write(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"> <title>Print - Bill</title> ${styles} ${pageStyle} </head><body>${content}</body></html>`);
   win.document.close();
 
-  // give browser a little time to render and apply styles
-  setTimeout(() => {
-    win.focus();
-    win.print();
-    // don't auto-close — user may want to save from print dialog
-  }, 500);
+  setTimeout(()=>{ win.focus(); win.print(); }, 500);
 }
 
-/**
- * Generate a PDF sized for requested paper (A5 or A4).
- * Uses html2canvas + jsPDF loaded dynamically if needed.
- */
-async function generatePDF(size = 'A5') {
+/* --- Generate PDF (better pagination) ---
+   - default size: A4 (you can pass 'A5' or 'A4')
+   - uses html2canvas + jsPDF loaded dynamically
+   - improved mm->px conversion for correct slicing
+*/
+async function generatePDF(size = 'A4') {
   try {
     const btn = event?.target;
     if (btn) { btn.disabled = true; btn.textContent = 'Generating PDF...'; }
 
-    // load libs if needed
-    if (!window.html2canvas) {
-      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
-    }
-    if (!window.jspdf) {
-      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
-    }
+    // lazy-load libs
+    if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+    if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
 
     const { jsPDF } = window.jspdf;
     const element = document.getElementById('bill');
 
-    // render at high scale for clarity
-    const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
-    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+    // choose scale modestly (higher -> sharper but taller canvas)
+    const scale = 1.2;
 
-    // choose pdf format based on requested size
-    const pdfFormat = (size === 'A5') ? [148.5,210] : [210,297]; // mm (width,height)
-    const pdf = new jsPDF({ unit: 'mm', format: pdfFormat, orientation: 'portrait' });
+    // render element into canvas
+    const canvas = await html2canvas(element, { scale, useCORS:true, backgroundColor: '#ffffff' });
 
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
+    // PDF page sizes in mm
+    const pdfSizesMm = { 'A4': [210,297], 'A5': [148.5,210] };
+    const [pageWidthMm, pageHeightMm] = pdfSizesMm[size] || pdfSizesMm['A4'];
 
-    // compute image display size (leave small margin)
-    const margin = 8; // mm
-    const displayWidth = pageWidth - margin*2;
-    const imgProps = { width: canvas.width, height: canvas.height };
-    const displayHeight = (imgProps.height * displayWidth) / imgProps.width;
+    // convert mm to px for slicing (assuming 96 DPI): px = mm * (dpi / 25.4)
+    const dpi = 96 * scale; // use consistent dpi relative to canvas scale
+    const mmToPx = mm => Math.round(mm * (dpi / 25.4));
+    const marginMm = 8;
+    const pageWidthPx = mmToPx(pageWidthMm - marginMm*2);
+    const pageHeightPx = mmToPx(pageHeightMm - marginMm*2);
 
-    if (displayHeight <= pageHeight - margin*2) {
-      pdf.addImage(imgData, 'JPEG', margin, margin, displayWidth, displayHeight);
-    } else {
-      // slice long canvas into multiple pages (same technique used previously)
-      const pxPerPage = Math.floor(canvas.width * ( (pageHeight - margin*2) / displayHeight ));
-      let rendered = 0;
-      while (rendered < canvas.height) {
-        const tmpCanvas = document.createElement('canvas');
-        tmpCanvas.width = canvas.width;
-        tmpCanvas.height = Math.min(pxPerPage, canvas.height - rendered);
-        const ctx = tmpCanvas.getContext('2d');
-        ctx.drawImage(canvas, 0, rendered, canvas.width, tmpCanvas.height, 0, 0, canvas.width, tmpCanvas.height);
-        const tmpData = tmpCanvas.toDataURL('image/jpeg', 0.95);
-        const tmpDisplayHeight = (tmpCanvas.height * displayWidth) / tmpCanvas.width;
-        pdf.addImage(tmpData, 'JPEG', margin, margin, displayWidth, tmpDisplayHeight);
-        rendered += tmpCanvas.height;
-        if (rendered < canvas.height) pdf.addPage();
-      }
+    // total canvas size
+    const fullWidth = canvas.width;
+    const fullHeight = canvas.height;
+
+    // scale factor to map canvas px to pdf display width (in mm)
+    const pdf = new jsPDF({ unit: 'mm', format: [pageWidthMm, pageHeightMm], orientation: 'portrait' });
+    const pageWidthMMDisplay = pageWidthMm - marginMm*2;
+
+    // compute image display height in mm corresponding to full canvas width
+    const imgDisplayWidthMM = pageWidthMMDisplay;
+    const imgDisplayHeightMM = (fullHeight * imgDisplayWidthMM) / fullWidth; // mm unit when width matched
+
+    // convert each canvas slice (in px) to mm height in PDF via ratio
+    // We'll slice canvas into pageHeightPx chunks
+    let y = 0;
+    let pageIndex = 0;
+    while (y < fullHeight) {
+      const sliceHeight = Math.min(pageHeightPx, fullHeight - y);
+      const tmpCanvas = document.createElement('canvas');
+      tmpCanvas.width = fullWidth;
+      tmpCanvas.height = sliceHeight;
+      const ctx = tmpCanvas.getContext('2d');
+      ctx.drawImage(canvas, 0, y, fullWidth, sliceHeight, 0, 0, fullWidth, sliceHeight);
+      const imgData = tmpCanvas.toDataURL('image/jpeg', 0.92);
+
+      // compute this slice's display height in mm
+      const sliceDisplayHeightMM = (sliceHeight * imgDisplayWidthMM) / fullWidth;
+
+      if (pageIndex > 0) pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', marginMm, marginMm, imgDisplayWidthMM, sliceDisplayHeightMM);
+
+      y += sliceHeight;
+      pageIndex++;
     }
 
-    const filename = `bill-${(new Date()).toISOString().replace(/[:.]/g,'-')}.pdf`;
+    // finalize
+    const fileName = `bill-${new Date().toISOString().replace(/[:.]/g,'-')}.pdf`;
     const blob = pdf.output('blob');
 
-    // auto-download
+    // trigger download
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    const a = document.createElement('a'); a.href = url; a.download = fileName; document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
 
-    // Try native share if supported
-    if (navigator.canShare && navigator.canShare({ files: [new File([blob], filename, { type: 'application/pdf' })] })) {
-      try {
-        await navigator.share({ files: [new File([blob], filename, { type: 'application/pdf' })], title: 'Bill PDF' });
-      } catch (err) {
-        // user canceled share
-      }
-    } else {
-      // fallback
-      // no-op (we already downloaded)
+    // try native share (if supported)
+    if (navigator.canShare && navigator.canShare({ files: [new File([blob], fileName, { type: 'application/pdf' })] })) {
+      try { await navigator.share({ files: [new File([blob], fileName, { type: 'application/pdf' })], title: 'Bill PDF' }); }
+      catch (err) { /* user cancelled share */ }
     }
 
   } catch (err) {
-    console.error('PDF generation failed', err);
-    alert('Failed to generate PDF. See console for details.');
+    console.error(err);
+    alert('Failed to generate PDF — see console for details.');
   } finally {
-    if (event?.target) { event.target.disabled = false; event.target.textContent = 'Generate PDF (A5)'; }
+    if (event?.target) { event.target.disabled = false; event.target.textContent = 'Generate PDF (A4)'; }
   }
 }
 
-/** helper: dynamically load script */
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const existing = Array.from(document.getElementsByTagName('script')).find(s => s.src && s.src.indexOf(src) !== -1);
-    if (existing) return existing.onload ? existing.onload() : resolve();
-    const s = document.createElement('script');
-    s.src = src;
-    s.onload = resolve;
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
-}
-</script>
+/* load script helper */
+function loadScript(src){ return new Promise((resolve,reject)=>{ const s=document.createElement('script'); s.src=src; s.onload=resolve; s.onerror=reject; document.head.appendChild(s); }); }
 
+</script>
 </body>
 </html>
