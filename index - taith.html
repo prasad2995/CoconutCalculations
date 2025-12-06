@@ -144,10 +144,10 @@
     <label>Amount after Karchulu</label>
     <input id="afterKarchulu" style="width: 75%;  type="text" readonly />
   </div>
-  <!-- div class="grid">
+  <div class="grid">
     <label>Taith (10% of Amount after Karchulu)</label>
     <input id="taith" style="width: 75%;  type="text" readonly />
-  </div-->
+  </div>
   <div class="total">
     <span>Final Amount</span>
     <span id="finalTotal">₹ 0.00</span>
@@ -197,10 +197,10 @@ function recalc(){
   document.getElementById('afterKarchulu').value = formatINR(afterKarchulu);
 
   // Taith = 10% of Amount after Karchulu (auto, readonly)
-  // const taithAmount = afterKarchulu * 0.10;
-  // document.getElementById('taith').value = formatINR(taithAmount);
+  const taithAmount = afterKarchulu * 0.10;
+  document.getElementById('taith').value = formatINR(taithAmount);
 
-  const finalTotal = afterKarchulu;
+  const finalTotal = afterKarchulu - taithAmount;
   document.getElementById('finalTotal').textContent = formatINR(finalTotal);
 }
 
