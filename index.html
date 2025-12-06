@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="te">
 <head>
@@ -17,31 +16,25 @@
     }
     * { box-sizing: border-box; }
     body {
-      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, "Noto Sans Telugu", "Noto Sans", sans-serif;
+      margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans Telugu", "Noto Sans", sans-serif;
       background: var(--bg); color: var(--text);
       line-height: 1.5;
-	  max-width: 700px;
     }
-    .wrap { max-width: 680px; margin: 40px auto; padding: 16px; }
+    .wrap { max-width: 680px; margin: 20px auto; padding: 16px; }
     .card {
       background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
-      overflow: hidden;
-	  border-radius: 15px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06); overflow: hidden; border-radius: 15px;
     }
-    header {
-      padding: 20px 24px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #fff;
-    }
+    header { padding: 16px 20px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #fff; }
     header h1 { margin: 0; font-size: 1.6rem; }
-    .content { padding: 24px; border-radius: 12px; }
-    .grid { display: grid; grid-template-columns: 1fr 200px; gap: 12px; align-items: center; }
+    .content { padding: 12px; border-radius: 12px; }
+    .grid { display: grid; grid-template-columns: 1fr 200px; gap: 20px; align-items: center; margin-bottom:8px; }
     label { font-weight: 600; }
     .muted { color: var(--muted); font-weight: 400; }
-    input[type="number"], input[readonly] {
+    input[type="number"], input[readonly], input[type="text"] {
       width: 45%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
       font-size: 1rem; background: #fff;
     }
-	input[amount] { background: #f9fafb; color: #111827; font-weight: 600; }
     .row { margin-top: 16px; }
     .hr { border-top: 1px dashed var(--border); margin: 8px 0 16px; }
     .total {
@@ -51,144 +44,161 @@
     }
     .help { font-size: 0.92rem; color: var(--muted); margin-top: 8px; }
     .footer { margin-top: 20px; font-size: 0.9rem; color: var(--muted); }
-    .btns { display: flex; gap: 10px; margin-top: 12px; }
-    button { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; }
+    .btns { display: flex; gap: 10px; margin-top: 12px; flex-wrap:wrap; }
+    button { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; background:#fff; }
     button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+    button.secondary { background: var(--accent-2); color: #fff; border-color: var(--accent-2); }
+
+    /* Top header */
+    .top-header { text-align: center; margin: 12px 0 18px; line-height: 1.15; }
+    .top-header h1 { margin: 3px 0; color: red; font-size: 1.5rem; font-weight:800; }
+    .top-header h3 { margin: 2px 0; font-size: 1rem; font-weight:700; }
+    .top-header .blue { color: blue; }
+
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } .wrap{padding:12px;} }
+
+    /* Default print styles (will be applied in print window too) */
+    @media print {
+      html, body { background: #fff; color: #000; }
+      body { margin: 0; }
+      .btns, .no-print { display: none !important; }
+      .card { box-shadow: none; border: none; border-radius: 0; }
+      header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .top-header h1, .top-header h3 { color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      /* improve spacing for print */
+      .wrap { margin: 0; padding: 8mm; max-width: none; }
+      .content { padding: 6px; }
+      .grid { gap: 10px; }
+      input { border: 1px solid #ddd; }
+    }
   </style>
 </head>
 <body>
 
-<body>
+<!-- TOP HEADER -->
+<div class="wrap" id="bill"> <!-- capture area for printing/pdf -->
+  <div class="top-header card" style="padding:12px 18px;">
+    <h3 style="font-size:1.05rem; margin:6px 0;">కొనుబడి బిల్లు</h3>
+    <h2 style="margin:6px 0; color: red; font-size:1.3rem; font-weight:800;">గీతా ప్రనూష కోనసీమ కోకోనట్ బిజినెస్</h2>
+    <h3 class="blue" style="margin:4px 0;">మగటపల్లి</h3>
+    <h3 style="margin:4px 0; color:#000;">ప్రో: గుండాబత్తుల ప్రసాద్</h3>
+    <h3 style="margin:4px 0; color:#000;">సెల్: 9177682498, 9963153332</h3>
+  </div>
 
-<!-- ===================================== -->
-<!--           TOP HEADER SECTION          -->
-<!-- ===================================== -->
-<div style="text-align: center; margin-top: 20px; line-height: 1.4;">
-    <h3 style="margin: 5px 0; font-size: 1.2rem;">
-        కొనుబడి బిల్లు
-    </h3>
-
-    <h1 style="margin: 5px 0; color: red; font-size: 1.8rem; font-weight: bold;">
-        గీతా ప్రనూష కోనసీమ కోకోనట్ బిజినెస్
-    </h1>
-
-    <h3 style="margin: 5px 0; color: blue; font-size: 1.2rem;">
-        మగటపల్లి
-    </h3>
-
-    <h3 style="margin: 5px 0; color: #000; font-size: 1.2rem;">
-        ప్రో: గుండాబత్తుల ప్రసాద్
-    </h3>
-
-    <h3 style="margin: 5px 0; color: #000; font-size: 1.2rem;">
-        సెల్: 9177682498, 9963153332
-    </h3>
-
-    <hr style="margin-top: 10px; border: none; border-top: 2px solid #ccc; width: 80%;">
-</div>
-
-<!-- Your existing content continues below -->
-
-  <div class="wrap">
+  <!-- Section 1 -->
+  <div class="wrap" style="padding:0; margin-top:12px;">
     <div class="card">
-<!-- Section 1: Kobarikayalu -->
-<div class="section">
-<header>Kobarikayalu</header>
-<div class="content">
-  <div class="grid">
-    <label for="asalu">మొత్తం కొబ్బరికాయలు</label>
-	<input id="asalu" name="asalu" type="number" inputmode="numeric" min="0" step="1" value="0" />
+      <div class="section">
+        <header>కొబ్బరికాయలు</header>
+        <div class="content">
+          <div class="grid">
+            <label for="asalu">మొత్తం కొబ్బరిగా(Asalu)</label>
+            <input id="asalu" name="asalu" type="number" inputmode="numeric" min="0" step="1" value="0" />
+          </div>
+          <div class="grid">
+            <label for="senagalu">సెనగలు తీసేయవలసినవి (పెర్సెంట్ %)</label>
+            <input id="senagalu100" type="number" inputmode="numeric" min="0" step="1" value="0" />
+          </div>
+          <div class="grid">
+            <label for="senagalu">సెనగలు తీసినవి మొత్తం</label>
+            <input id="senagalu" type="number" readonly />
+          </div>
+          <div class="grid">
+            <label>మొత్తం కాయలు (సెనగలు తీసిన తర్వాత)</label>
+            <input id="finalCount" type="number" readonly />
+          </div>
+          <div class="grid">
+            <label>రేటు (₹) 1000 కాయలకు</label>
+            <input id="rate" type="number" inputmode="numeric" min="0" step="1" value="0" />
+          </div>
+          <div style="height:6px"></div>
+          <div class="total">
+            <span>మొత్తం రుసుము</span>
+            <span id="finalAmount">₹ 0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="grid">
-    <label for="senagalu">సెనగలు తీసేయవలసినవి 100 కి</label>
-    <input id="senagalu100" type="number" inputmode="numeric" min="0" step="1" value="0" />
-  </div>
-  <div class="grid">
-    <label for="senagalu">సెనగలు తీసినవి మొత్తం</span></label>
-    <input id="senagalu" type="number" readonly />
-  </div>
-  <div class="grid">
-    <label>మొత్తం కాయలు (సెనగలు తీసిన తర్వాత)</span></label>
-    <input id="finalCount" type="number" readonly />
-  </div>
-  <div class="grid">
-    <label>రేటు 1000 కాయలకు</span></label> 
-    <input id="rate" type="number" inputmode="numeric" min="3" step="1" value="0" />
-  </div>
-  <div class="total">
-    <span>మొత్తం రుసుము</span>
-    <span id="finalAmount">₹ 0.00</span>
-  </div>
-</div>
-</div>
-</div>
-</div>
-  <div class="wrap">
-    <div class="card">
-<!-- Section 2: Karchulu -->
-<div class="section">
-<header>Karchulu</header>
-<div class="content">
-  <div class="grid">
-    <label>Dimpu Per Coconut</label>
-    <input id="dimpuPer" type="number" inputmode="numeric" min="0" step="1" value="0" />
-  </div>
-  <div class="grid">
-    <label>Dimpu Valaki</label>
-    <input id="dimpuValaki" type="number" readonly />
-  </div>
-  <div class="grid">
-    <label>Labour Expenses</label>
-    <input id="labour" type="number" inputmode="numeric" min="0" step="1" value="0" />
-  </div>
-  <div class="grid">
-    <label>Transport Expenses</label>
-    <input id="transport" type="number" inputmode="numeric" min="0" step="1" value="0" />
-  </div>
-  <div class="grid">
-    <label>Other Expenses</label>
-    <input id="other" type="number" inputmode="numeric" min="0" step="1" value="0" />
-  </div>
-  <div class="total">
-    <span>Expenses Final</span>
-    <span id="expensesFinal">₹ 0.00</span>
-  </div>
-</div>
-</div>
-</div>
-</div>
-  <div class="wrap">
-    <div class="card">
-<!-- Section 3: Final Amount -->
-<div class="section">
-<header>Final Amount</header>
-<div class="content">
-  <div class="grid">
-    <label>Amount from Kayalu</label>
-    <input id="amountKayalu" style="width: 75%; " type="text" readonly />
-  </div>
-  <div class="grid">
-    <label>Karchulu (-)</label>
-    <input id="amountKarchulu" style="width: 75%;  type="text" readonly />
-  </div>
-  <div class="grid">
-    <label>Amount after Karchulu</label>
-    <input id="afterKarchulu" style="width: 75%;  type="text" readonly />
-  </div>
-  <!-- div class="grid">
-    <label>Taith (10% of Amount after Karchulu)</label>
-    <input id="taith" style="width: 75%;  type="text" readonly />
-  </div-->
-  <div class="total">
-    <span>Final Amount</span>
-    <span id="finalTotal">₹ 0.00</span>
-  </div>
-</div>
-</div>
-</div>
-</div>
 
+  <!-- Section 2 -->
+  <div class="wrap" style="padding:0; margin-top:12px;">
+    <div class="card">
+      <div class="section">
+        <header>ఖర్చులు</header>
+        <div class="content">
+          <div class="grid">
+            <label>దింపు ఒక్క కొబ్బరికాయకి</label>
+            <input id="dimpuPer" type="number" inputmode="numeric" min="0" step="1" value="0" />
+          </div>
+          <div class="grid">
+            <label>దింపు మొత్తం (కాయలకు)</label>
+            <input id="dimpuValaki" type="number" readonly />
+          </div>
+          <div class="grid">
+            <label>లేబర్ ఖర్చులు</label>
+            <input id="labour" type="number" inputmode="numeric" min="0" step="1" value="0" />
+          </div>
+          <div class="grid">
+            <label>ట్రాన్స్‌పోర్ట్ ఖర్చులు</label>
+            <input id="transport" type="number" inputmode="numeric" min="0" step="1" value="0" />
+          </div>
+          <div class="grid">
+            <label>ఇతర ఖర్చులు</label>
+            <input id="other" type="number" inputmode="numeric" min="0" step="1" value="0" />
+          </div>
+          <div style="height:6px"></div>
+          <div class="total">
+            <span>మొత్తం ఖర్చులు</span>
+            <span id="expensesFinal">₹ 0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="wrap" style="padding:0; margin-top:12px; margin-bottom:20px;">
+    <div class="card">
+      <div class="section">
+        <header>మొత్తం రుసుము</header>
+        <div class="content">
+          <div class="grid">
+            <label>కాయలు రుసుము</label>
+            <input id="amountKayalu" style="width:75%" type="text" readonly />
+          </div>
+          <div class="grid">
+            <label>ఖర్చులు మొత్తంగా</label>
+            <input id="amountKarchulu" style="width:75%" type="text" readonly />
+          </div>
+          <div style="height:6px"></div>
+          <div class="total">
+            <span>Final Amount</span>
+            <span id="finalTotal">₹ 0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="card" style="padding:12px 16px; display:flex; align-items:center; gap:12px; margin-top:12px;">
+    <div style="font-weight:700;">Bill actions</div>
+    <div class="btns no-print" style="margin-left:auto;">
+      <!--button onclick="doPrint('A4')" title="Open print dialog prepared for A4">Print (A4)</button>
+      <button onclick="doPrint('A5')" title="Open print dialog prepared for A5">Print (A5)</button-->
+      <button class="primary" onclick="generatePDF('A5')" title="Generate & download A5 PDF">Generate PDF</button>
+    </div>
+  </div>
+
+<br>
+
+  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:20px;">
+    Generated on: <span id="generatedDate"></span>
+  </div>
+</div> <!-- end capture area -->
+
+<!-- === Calculation logic (unchanged) === -->
 <script>
 function toNumber(id){
   const el = document.getElementById(id);
@@ -199,7 +209,6 @@ function toNumber(id){
 function formatINR(n){ return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR'}).format(n); }
 
 function recalc(){
-  // Section 1: Kobarikayalu
   const asalu = toNumber('asalu');
   const senagalu100 = toNumber('senagalu100');
   let senagalu = 0;
@@ -213,7 +222,6 @@ function recalc(){
   const kayaluAmount = finalCount * (rate/1000);
   document.getElementById('finalAmount').textContent = formatINR(kayaluAmount);
 
-  // Section 2: Karchulu
   const dimpuPer = toNumber('dimpuPer'), labour = toNumber('labour'), transport = toNumber('transport'), other = toNumber('other');
   const dimpuValaki = asalu * dimpuPer;
   document.getElementById('dimpuValaki').value = dimpuValaki;
@@ -221,25 +229,157 @@ function recalc(){
   const karchuluAmount = dimpuValaki + labour + transport + other;
   document.getElementById('expensesFinal').textContent = formatINR(karchuluAmount);
 
-  // Section 3: Final Amount
   document.getElementById('amountKayalu').value = formatINR(kayaluAmount);
   document.getElementById('amountKarchulu').value = formatINR(karchuluAmount);
 
-  const afterKarchulu = kayaluAmount - karchuluAmount;
-  document.getElementById('afterKarchulu').value = formatINR(afterKarchulu);
-
-  // Taith = 10% of Amount after Karchulu (auto, readonly)
-  // const taithAmount = afterKarchulu * 0.10;
-  // document.getElementById('taith').value = formatINR(taithAmount);
-
-  const finalTotal = afterKarchulu;
+  const finalTotal = kayaluAmount - karchuluAmount;
   document.getElementById('finalTotal').textContent = formatINR(finalTotal);
+
+  document.getElementById('generatedDate').textContent = new Date().toLocaleString('en-IN');
 }
 
 ['asalu','senagalu100','rate','dimpuPer','labour','transport','other'].forEach(id=>{
   document.getElementById(id).addEventListener('input', recalc);
 });
 recalc();
+</script>
+
+<!-- === Printing functions (A4 / A5) === -->
+<script>
+/**
+ * Open a print window for chosen paper size ('A4' or 'A5').
+ * It clones the #bill node into a new window and inserts an @page rule for size.
+ */
+function doPrint(size = 'A4') {
+  const el = document.getElementById('bill');
+  if (!el) return alert('No bill found to print.');
+
+  // prepare content
+  const content = el.outerHTML;
+  // collect inline <style> rules on the current page (so print window keeps same styles)
+  const styles = Array.from(document.querySelectorAll('style')).map(s => s.outerHTML).join('\n') +
+                 Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(l => l.outerHTML).join('\n');
+
+  const pageStyle = `<style>
+    @page { size: ${size}; margin: 12mm; }
+    html,body { height: auto; }
+    /* hide action buttons in print window */
+    .no-print, .btns { display: none !important; }
+    /* ensure good print colors */
+    .top-header h2, .top-header h3 { color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  </style>`;
+
+  const win = window.open('', '_blank', 'noopener,width=900,height=1200');
+  win.document.open();
+  win.document.write(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"> <title>Print - Bill</title> ${styles} ${pageStyle} </head><body>${content}</body></html>`);
+  win.document.close();
+
+  // give browser a little time to render and apply styles
+  setTimeout(() => {
+    win.focus();
+    win.print();
+    // don't auto-close — user may want to save from print dialog
+  }, 500);
+}
+
+/**
+ * Generate a PDF sized for requested paper (A5 or A4).
+ * Uses html2canvas + jsPDF loaded dynamically if needed.
+ */
+async function generatePDF(size = 'A5') {
+  try {
+    const btn = event?.target;
+    if (btn) { btn.disabled = true; btn.textContent = 'Generating PDF...'; }
+
+    // load libs if needed
+    if (!window.html2canvas) {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+    }
+    if (!window.jspdf) {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    }
+
+    const { jsPDF } = window.jspdf;
+    const element = document.getElementById('bill');
+
+    // render at high scale for clarity
+    const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+    // choose pdf format based on requested size
+    const pdfFormat = (size === 'A5') ? [148.5,210] : [210,297]; // mm (width,height)
+    const pdf = new jsPDF({ unit: 'mm', format: pdfFormat, orientation: 'portrait' });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // compute image display size (leave small margin)
+    const margin = 8; // mm
+    const displayWidth = pageWidth - margin*2;
+    const imgProps = { width: canvas.width, height: canvas.height };
+    const displayHeight = (imgProps.height * displayWidth) / imgProps.width;
+
+    if (displayHeight <= pageHeight - margin*2) {
+      pdf.addImage(imgData, 'JPEG', margin, margin, displayWidth, displayHeight);
+    } else {
+      // slice long canvas into multiple pages (same technique used previously)
+      const pxPerPage = Math.floor(canvas.width * ( (pageHeight - margin*2) / displayHeight ));
+      let rendered = 0;
+      while (rendered < canvas.height) {
+        const tmpCanvas = document.createElement('canvas');
+        tmpCanvas.width = canvas.width;
+        tmpCanvas.height = Math.min(pxPerPage, canvas.height - rendered);
+        const ctx = tmpCanvas.getContext('2d');
+        ctx.drawImage(canvas, 0, rendered, canvas.width, tmpCanvas.height, 0, 0, canvas.width, tmpCanvas.height);
+        const tmpData = tmpCanvas.toDataURL('image/jpeg', 0.95);
+        const tmpDisplayHeight = (tmpCanvas.height * displayWidth) / tmpCanvas.width;
+        pdf.addImage(tmpData, 'JPEG', margin, margin, displayWidth, tmpDisplayHeight);
+        rendered += tmpCanvas.height;
+        if (rendered < canvas.height) pdf.addPage();
+      }
+    }
+
+    const filename = `bill-${(new Date()).toISOString().replace(/[:.]/g,'-')}.pdf`;
+    const blob = pdf.output('blob');
+
+    // auto-download
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+
+    // Try native share if supported
+    if (navigator.canShare && navigator.canShare({ files: [new File([blob], filename, { type: 'application/pdf' })] })) {
+      try {
+        await navigator.share({ files: [new File([blob], filename, { type: 'application/pdf' })], title: 'Bill PDF' });
+      } catch (err) {
+        // user canceled share
+      }
+    } else {
+      // fallback
+      // no-op (we already downloaded)
+    }
+
+  } catch (err) {
+    console.error('PDF generation failed', err);
+    alert('Failed to generate PDF. See console for details.');
+  } finally {
+    if (event?.target) { event.target.disabled = false; event.target.textContent = 'Generate PDF (A5)'; }
+  }
+}
+
+/** helper: dynamically load script */
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const existing = Array.from(document.getElementsByTagName('script')).find(s => s.src && s.src.indexOf(src) !== -1);
+    if (existing) return existing.onload ? existing.onload() : resolve();
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
 </script>
 
 </body>
