@@ -35,9 +35,13 @@
     .meta-row { display:flex; gap:12px; align-items:center; margin:8px 0 6px; flex-wrap:wrap; }
     .meta-row .item { display:flex; flex-direction:column; gap:6px; }
 
-    .bill-header { text-align:center; padding:10px 6px; }
-    .bill-header h1 { margin:4px 0; color: red; font-size:1.2rem; font-weight:900; }
-    .bill-header h3 { margin:2px 0; color: #004CA3;font-size:0.98rem; font-weight:700; }
+    .bill-header { position: relative; padding:10px 6px; }
+    .bill-center { text-align:center; }
+    .bill-center h2 { margin:4px 0; color: red; font-size:1rem; font-weight:900; }
+    .bill-center h3 { margin:2px 0; color: #004CA3;font-size:0.98rem; font-weight:700; }
+    .bill-right { position:absolute; top:8px; right:12px; text-align:right; font-weight:700; font-size:0.95rem; color:#111827; }
+
+    .customer-print { display:none; font-weight:700; } /* visible in print/capture mode */
 
     .total { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; background:#f0fdf4; border:1px solid #dcfce7; border-radius:8px; font-size:1.02rem; font-weight:700; margin-top:6px; }
 
@@ -54,13 +58,18 @@
       label { font-size: 0.88rem; }
       input[type="number"], input[readonly], input[type="text"] { width: 60%; padding:6px 8px; font-size:0.9rem; }
       .meta-row .item { min-width: 120px; }
+      .bill-right { position: static; text-align:right; margin-top:8px; }
     }
     @media (max-width: 380px) {
       .grid { grid-template-columns: 1fr 120px; gap:6px; }
       input[type="number"], input[readonly], input[type="text"] { width: 64%; }
     }
 
-    /* print styles */
+    /* make customer name input invisible and print-text visible during print or capture mode */
+    body.print-mode input#customerName { display: none !important; }
+    body.print-mode .customer-print { display: block !important; }
+
+    /* print styles (also cover normal print) */
     @media print {
       @page { size: A4; margin: 12mm; }
       html, body { background: #fff; color: #000; } body { margin:0; }
@@ -68,6 +77,9 @@
       .card { box-shadow:none; border:none; border-radius:0; }
       .wrap { margin:0; padding:8mm; max-width:none; }
       input, textarea { border: 1px solid #ddd; }
+      /* show the plain customer name in print */
+      input#customerName { display: none !important; }
+      .customer-print { display: block !important; }
     }
   </style>
 </head>
@@ -79,24 +91,28 @@
   <!-- Header -->
   <div class="card" style="padding:10px; margin-bottom:10px; ">
     <div class="bill-header">
-	  <h3 style="color: black;">కొనుబడి బిల్లు</h3>
-      <h1>🌴 గీతా ప్రనూష కోనసీమ కోకోనట్ బిజినెస్ 🌴</h1>
-      <h3>మగటపల్లి</h3>
-      <div style="font-weight:700; margin-top:6px; color: #2D9966;">ప్రో: గుండాబత్తుల ప్రసాద్</div>
-      <div style="font-weight:700; margin-top:6px; color: #A33100;">సెల్: 9177682498, 9963153332</div>
+      <div class="bill-center">
+        <h3 style="color: black; margin:0;">కొనుబడి బిల్లు</h3>
+        <h2>🌴 గీతా ప్రనూష కోనసీమ కోకోనట్ బిజినెస్ 🌴</h2>
+        <h3>మగటపల్లి</h3>
+        <div style="font-weight:700; color: #2D9966; margin-top:6px;">ప్రో: గుండాబత్తుల ప్రసాద్</div>
+        <div style="font-weight:700; color: #A33100;">సెల్: 9177682498, 9963153332</div>
+      </div>
+
+      <!-- top-right: Bill No + Date (one-line) -->
+      <div class="bill-right" id="billMeta">
+        <div id="billNoDisplay">బిల్ నం: —</div>
+        <div id="dateDisplay">తేది: —</div>
+      </div>
     </div>
 
-    <!-- customer name (now larger) and date label -->
+    <!-- customer name (now larger) -->
     <div class="meta-row" style="margin-top:10px;">
       <div class="item" style="flex:1;">
         <label style="font-size:0.95rem;">కొనుగోలుదారు పేరు</label>
-        <input id="customerName" style="width:350px" type="text" placeholder="" class="full" />
-      </div>
-
-      <div class="item" style="width:160px;">
-        <label style="font-size:0.95rem;">తేదీ</label>
-        <!-- date shown as plain label (no input borders) -->
-        <div id="billDate" style="padding:8px 10px; border-radius:6px; background:transparent; font-weight:700;"></div>
+        <input id="customerName" style="width:100%" type="text" placeholder="" />
+        <!-- plain text version for print / PDF capture -->
+        <div class="customer-print" id="customerNamePrint"></div>
       </div>
     </div>
   </div>
@@ -184,24 +200,21 @@
   </div>
 
   <!-- Bottom action card -->
-  <!--div class="card" style="padding:12px; margin-bottom:24px;"-->
-    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-      <!--button onclick="doPrint()" class="ghost">Print</button>
-      <button class="primary" id="generatePdfBtn" onclick="generatePDF()" title="Generate compact PDF">Generate PDF</button-->
-      <button id="shareImgBtn" onclick="shareAsImage()">Share Image</button>
-    </div>
-  <!--/div-->
-<br>
+  <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:8px;">
+    <!--button class="ghost" onclick="prepareAndPrint()">Print</button>
+    <button class="primary" id="generatePdfBtn" onclick="prepareAndGeneratePDF()" title="Generate compact PDF">Generate PDF</button-->
+    <button id="shareImgBtn" onclick="prepareAndShareImage()">Share Image</button>
+  </div>
 
+  <br>
 
-  <!-- final area: generated date + buttons moved to bottom -->
-  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:12px;">
+  <!-- final area: generated date + author -->
+  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:6px;">
     This bill is generated on: <span id="generatedDate"></span>
   </div>
 
-  <!-- final area: generated date + buttons moved to bottom -->
   <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:12px;">
-    Developed and designed by Prasad Punnam</span>
+    Designed and developed by Prasad Punnam
   </div>
 
 </div> <!-- end #bill -->
@@ -256,16 +269,72 @@ function recalc(){
 recalc();
 
 /* show bill date as DD-MM-YYYY label (not input) */
-(function initDateLabel(){
+(function initDateAndBillNo(){
   const d = new Date();
   const pad = n => n.toString().padStart(2,'0');
   const dd = pad(d.getDate()), mm = pad(d.getMonth()+1), yyyy = d.getFullYear();
   const dateStr = `${dd}-${mm}-${yyyy}`;
-  const el = document.getElementById('billDate');
-  if (el) el.textContent = dateStr;
+  document.getElementById('dateDisplay').textContent = 'తేది: ' + dateStr;
+  document.getElementById('generatedDate').textContent = new Date().toLocaleString('en-IN');
+
+  // set current in-memory bill number (do not increment yet)
+  const last = parseInt(localStorage.getItem('lastBillNo') || '0', 10);
+  // show last + 1 as preview but not commit to storage yet
+  const preview = last + 1;
+  document.getElementById('billNoDisplay').textContent = 'బిల్ నం: ' + String(preview).padStart(3,'0');
+
+  // sync customer name print area whenever input changes
+  const cIn = document.getElementById('customerName');
+  const cPrint = document.getElementById('customerNamePrint');
+  function sync(){ cPrint.textContent = cIn.value || '—'; }
+  if (cIn) { cIn.addEventListener('input', sync); sync(); }
 })();
 
-/* Print function (single Print button) */
+/* ---- prepare capture/print mode helper ----
+   This will:
+    - ensure the customerNamePrint has the latest value
+    - set body.print-mode class to make inputs hidden and plain text visible
+    - ensure bill number is allocated (increment lastBillNo in localStorage)
+*/
+function allocateBillNoIfNeeded(){
+  // If there is already a committed bill number in dataset? We'll use current displayed value to check.
+  const display = document.getElementById('billNoDisplay').textContent || '';
+  if (display.includes('—')) {
+    // committed not set; allocate
+  }
+  // Always allocate on export action:
+  const last = parseInt(localStorage.getItem('lastBillNo') || '0', 10);
+  const next = last + 1;
+  localStorage.setItem('lastBillNo', String(next));
+  document.getElementById('billNoDisplay').textContent = 'బిల్ నం: ' + String(next).padStart(3,'0');
+  return next;
+}
+
+function enterPrintMode(){
+  // sync customer print text
+  const cIn = document.getElementById('customerName');
+  const cPrint = document.getElementById('customerNamePrint');
+  if (cPrint) cPrint.textContent = cIn && cIn.value ? cIn.value : '—';
+  document.body.classList.add('print-mode');
+}
+
+function exitPrintMode(){
+  document.body.classList.remove('print-mode');
+}
+
+/* -------------- Print / PDF / Share wrappers -------------- */
+
+/* Print (open print dialog) */
+function prepareAndPrint(){
+  const billNo = allocateBillNoIfNeeded();
+  enterPrintMode();
+  setTimeout(()=> {
+    doPrint();
+    // exit after a short delay so UI returns
+    setTimeout(exitPrintMode, 800);
+  }, 120);
+}
+
 function doPrint(){
   const el = document.getElementById('bill');
   if (!el) return alert('No bill to print.');
@@ -279,16 +348,22 @@ function doPrint(){
   setTimeout(()=>{ win.focus(); win.print(); }, 500);
 }
 
-/* --- PDF generation: single sensible size and better pagination ---
-   - default page size: A4 portrait (keeps pages small)
-   - smaller scale to avoid long tall canvas
-   - slice canvas into page-height chunks using mm->px conversion
-*/
+/* Generate PDF (compact pagination) */
+async function prepareAndGeneratePDF(){
+  allocateBillNoIfNeeded();
+  enterPrintMode();
+  // wait a bit for styles to apply
+  setTimeout(async () => {
+    await generatePDF();
+    // restore UI
+    setTimeout(exitPrintMode, 600);
+  }, 150);
+}
+
 async function generatePDF(){
   try {
     const btn = document.getElementById('generatePdfBtn');
-    btn.disabled = true;
-    btn.textContent = 'Generating...';
+    if (btn){ btn.disabled = true; btn.textContent = 'Generating...'; }
 
     if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
     if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
@@ -296,24 +371,20 @@ async function generatePDF(){
     const { jsPDF } = window.jspdf;
     const element = document.getElementById('bill');
 
-    // choose a modest scale to keep canvas reasonably sized on mobile
-    const scale = 1.0; // 1.0 gives balanced quality vs size
-
+    const scale = 1.0;
     const canvas = await html2canvas(element, { scale, useCORS:true, backgroundColor:'#ffffff' });
 
     // PDF A4 mm
     const pageWidthMm = 210, pageHeightMm = 297, marginMm = 8;
-    const dpi = 96 * scale; // px per inch
+    const dpi = 96 * scale;
     const mmToPx = mm => Math.round(mm * (dpi / 25.4));
     const pageHeightPx = mmToPx(pageHeightMm - marginMm*2);
-    const pageWidthPx = mmToPx(pageWidthMm - marginMm*2);
 
     const fullWidth = canvas.width, fullHeight = canvas.height;
-
-    // create pdf
     const pdf = new jsPDF({ unit:'mm', format:[pageWidthMm,pageHeightMm], orientation:'portrait' });
     const displayWidthMM = pageWidthMm - marginMm*2;
-    // slice canvas vertically
+
+    // slice vertically
     let y = 0, pageIndex = 0;
     while (y < fullHeight) {
       const sliceHeight = Math.min(pageHeightPx, fullHeight - y);
@@ -340,13 +411,10 @@ async function generatePDF(){
     const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
 
-    // try native share for files
+    // try native share
     if (navigator.canShare && navigator.canShare({ files: [new File([blob], filename, { type: 'application/pdf' })] })) {
-      try { await navigator.share({ files: [new File([blob], filename, { type: 'application/pdf' })], title: 'Bill PDF' }); } catch(e){ /* may cancel */ }
-    } else {
-      // already downloaded
+      try { await navigator.share({ files: [new File([blob], filename, { type: 'application/pdf' })], title: 'Bill PDF' }); } catch(e) { /* may cancel */ }
     }
-
   } catch (err) {
     console.error('PDF gen error', err);
     alert('Failed to create PDF. See console for details.');
@@ -356,37 +424,40 @@ async function generatePDF(){
   }
 }
 
-/* --- Share as Image: capture whole bill as one image and share or download --- */
+/* Share as Image (with print-mode plain text) */
+async function prepareAndShareImage(){
+  allocateBillNoIfNeeded();
+  enterPrintMode();
+  setTimeout(async () => {
+    await shareAsImage();
+    setTimeout(exitPrintMode, 600);
+  }, 150);
+}
+
 async function shareAsImage(){
   try {
     const btn = document.getElementById('shareImgBtn');
-    btn.disabled = true;
-    btn.textContent = 'Preparing...';
+    if (btn){ btn.disabled = true; btn.textContent = 'Preparing...'; }
 
     if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
 
-    // capture at higher scale for better quality but limited to avoid huge images
+    // capture at balanced scale for mobile
     const scale = 1.5;
     const canvas = await html2canvas(document.getElementById('bill'), { scale, useCORS:true, backgroundColor:'#ffffff' });
-    // convert to blob (png)
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 0.95));
-
     const fileName = `bill-${new Date().toISOString().replace(/[:.]/g,'-')}.png`;
 
-    // Try Web Share API with files
     if (navigator.canShare && navigator.canShare({ files: [new File([blob], fileName, { type: 'image/png' })] })) {
       try {
         await navigator.share({ files: [new File([blob], fileName, { type: 'image/png' })], title: 'Bill Image' });
-        btn.textContent = 'Shared';
-        setTimeout(()=> btn.textContent = 'Share Image', 1200);
+        if (btn) { btn.textContent = 'Shared'; setTimeout(()=> btn.textContent = 'Share Image', 1200); }
         return;
       } catch (err) {
-        // user cancelled or share not allowed
         console.warn('Share failed or canceled:', err);
       }
     }
 
-    // fallback: download the PNG
+    // fallback: download image
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a'); a.href = url; a.download = fileName; document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
