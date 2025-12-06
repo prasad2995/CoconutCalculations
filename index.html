@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kobarikayalu, Karchulu & Final Amount</title>
+<title>Kobarikayalu — Bill</title>
   <style>
     :root {
       --bg: #f7fafc;
@@ -17,102 +17,89 @@
     * { box-sizing: border-box; }
     body {
       margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans Telugu", "Noto Sans", sans-serif;
-      background: var(--bg); color: var(--text);
-      line-height: 1.45;
+      background: var(--bg); color: var(--text); line-height: 1.45;
     }
 
-    /* outer page container */
-    .wrap { max-width: 720px; margin: 16px auto; padding: 12px; }
-    .card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06); overflow: hidden;
-    }
-    header { padding: 12px 16px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #fff; font-weight:700; }
+    /* container */
+    .wrap { max-width: 720px; margin: 12px auto; padding: 12px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); overflow: hidden; }
+    header { padding: 10px 14px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #fff; font-weight:700; }
     .content { padding: 10px 14px; }
-    .grid { display: grid; grid-template-columns: 1fr 220px; gap: 14px; align-items: center; margin-bottom:6px; }
+    .grid { display: grid; grid-template-columns: 1fr 220px; gap: 12px; align-items: center; margin-bottom:8px; }
     label { font-weight: 700; font-size: 0.95rem; }
     .muted { color: var(--muted); font-weight: 400; font-size:0.9rem; }
     input[type="number"], input[readonly], input[type="text"], textarea {
-      width: 45%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px;
-      font-size: 0.95rem; background: #fff;
+      width: 45%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; background: #fff;
     }
-    input.small { width: 35%; }
-    .row { margin-top: 12px; }
-    .total {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 14px; background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 8px;
-      font-size: 1.02rem; font-weight: 700; margin-top:6px;
-    }
-    .btns { display: flex; gap: 10px; margin-top: 10px; flex-wrap:wrap; }
-    button { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; background:#fff; font-weight:700; }
-    button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    input.full { width: 100%; } /* for customer name bigger input */
     .meta-row { display:flex; gap:12px; align-items:center; margin:8px 0 6px; flex-wrap:wrap; }
     .meta-row .item { display:flex; flex-direction:column; gap:6px; }
 
-    /* header text */
     .bill-header { text-align:center; padding:10px 6px; }
     .bill-header h1 { margin:4px 0; color: #b91c1c; font-size:1.2rem; font-weight:900; }
     .bill-header h3 { margin:2px 0; font-size:0.98rem; font-weight:700; }
 
-    /* responsive - make inputs and labels smaller on phones and keep two-column layout */
+    .total { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; background:#f0fdf4; border:1px solid #dcfce7; border-radius:8px; font-size:1.02rem; font-weight:700; margin-top:6px; }
+
+    .btns { display:flex; gap:10px; flex-wrap:wrap; }
+    button { padding:8px 12px; border-radius:8px; border:1px solid var(--border); cursor:pointer; background:#fff; font-weight:700; }
+    button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    button.ghost { background: transparent; color: inherit; border-color: var(--border); }
+
+    .small { width: 35%; }
+
+    /* responsive tweaks so labels + inputs sit side-by-side on phones */
     @media (max-width: 520px) {
-      .grid { grid-template-columns: 1fr 140px; gap:10px; }
+      .grid { grid-template-columns: 1fr 140px; gap:8px; }
       label { font-size: 0.88rem; }
-      input[type="number"], input[readonly], input[type="text"] { width: 55%; padding:6px 8px; font-size:0.9rem; }
-      .total { padding: 10px 12px; font-size:1rem; }
-      .btns button { padding:8px 10px; font-size:0.9rem; }
-      .meta-row { gap:8px; }
+      input[type="number"], input[readonly], input[type="text"] { width: 60%; padding:6px 8px; font-size:0.9rem; }
       .meta-row .item { min-width: 120px; }
     }
-
     @media (max-width: 380px) {
-      .grid { grid-template-columns: 1fr 120px; gap:8px; }
-      input[type="number"], input[readonly], input[type="text"] { width: 60%; }
-      label { font-size: 0.86rem; }
+      .grid { grid-template-columns: 1fr 120px; gap:6px; }
+      input[type="number"], input[readonly], input[type="text"] { width: 64%; }
     }
 
     /* print styles */
     @media print {
-      @page { size:A4; margin: 12mm; }
-      html, body { background: #fff; color: #000; }
-      body { margin: 0; }
+      @page { size: A4; margin: 12mm; }
+      html, body { background: #fff; color: #000; } body { margin:0; }
       .btns, .no-print { display: none !important; }
-      .card { box-shadow: none; border: none; border-radius: 0; }
-      .wrap { margin: 0; padding: 8mm; max-width: none; }
+      .card { box-shadow:none; border:none; border-radius:0; }
+      .wrap { margin:0; padding:8mm; max-width:none; }
       input, textarea { border: 1px solid #ddd; }
     }
   </style>
 </head>
 <body>
 
-<!-- capture area for printing/pdf -->
+<!-- Bill capture area -->
 <div class="wrap" id="bill">
 
-  <!-- header -->
+  <!-- Header -->
   <div class="card" style="padding:10px; margin-bottom:10px;">
     <div class="bill-header">
-      <h3>కొనుబడి బిల్లు</h3>
       <h1>గీతా ప్రనూష కోనసీమ కోకోనట్ బిజినెస్</h1>
-      <h3> మగటపల్లి</h3>
+      <h3>కొనుబడి బిల్లు — మగటపల్లి</h3>
       <div style="font-weight:700; margin-top:6px;">ప్రో: గుండాబత్తుల ప్రసాద్ | సెల్: 9177682498, 9963153332</div>
     </div>
 
-    <!-- customer name + date -->
-    <div class="meta-row" style="margin-top:8px;">
+    <!-- customer name (now larger) and date label -->
+    <div class="meta-row" style="margin-top:10px;">
       <div class="item" style="flex:1;">
-        <label style="font-size:0.95rem;">కొనుగోలుదారు పేరు</label>
-        <input id="customerName" type="text" placeholder="కొనుగోలుదారు పేరు" />
+        <label style="font-size:0.95rem;">Customer Name</label>
+        <input id="customerName" type="text" placeholder="Enter customer name" class="full" />
       </div>
 
-      <div class="item" style="width:180px;">
-        <label style="font-size:0.95rem;">తేదీ</label>
-        <!-- readonly text showing full date so year is always visible -->
-        <input style="width:100px;" id="billDate" type="text" readonly />
+      <div class="item" style="width:160px;">
+        <label style="font-size:0.95rem;">Date</label>
+        <!-- date shown as plain label (no input borders) -->
+        <div id="billDate" style="padding:8px 10px; border-radius:6px; background:transparent; font-weight:700;"></div>
       </div>
     </div>
   </div>
 
-  <!-- Section 1: Kobarikayalu -->
+  <!-- main content sections -->
   <div class="card" style="margin-bottom:10px;">
     <header>కొబ్బరికాయలు</header>
     <div class="content">
@@ -144,7 +131,6 @@
     </div>
   </div>
 
-  <!-- Section 2: Karchulu -->
   <div class="card" style="margin-bottom:10px;">
     <header>ఖర్చులు</header>
     <div class="content">
@@ -176,8 +162,7 @@
     </div>
   </div>
 
-  <!-- Section 3: Final Amount -->
-  <div class="card" style="margin-bottom:18px;">
+  <div class="card" style="margin-bottom:10px;">
     <header>మొత్తం రుసుము</header>
     <div class="content">
       <div class="grid">
@@ -196,25 +181,25 @@
     </div>
   </div>
 
-  <!-- actions -->
-  <div class="card" style="padding:10px 12px; margin-bottom:12px; display:flex; align-items:center;">
-    <div style="font-weight:700;">Bill actions</div>
-    <div class="btns no-print" style="margin-left:auto;">
-      <button onclick="doPrint('A4')">Print (A4)</button>
-      <button onclick="doPrint('A5')">Print (A5)</button>
-      <button class="primary" onclick="generatePDF('A4')">Generate PDF (A4)</button>
-    </div>
+  <!-- final area: generated date + buttons moved to bottom -->
+  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:12px;">
+    Generated on: <span id="generatedDate"></span>
   </div>
 
-  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:24px;">
-    Generated on: <span id="generatedDate"></span>
+  <!-- Bottom action card -->
+  <div class="card" style="padding:12px; margin-bottom:24px;">
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <button onclick="doPrint()" class="ghost">Print</button>
+      <button class="primary" id="generatePdfBtn" onclick="generatePDF()" title="Generate compact PDF">Generate PDF</button>
+      <button id="shareImgBtn" onclick="shareAsImage()">Share Image</button>
+    </div>
   </div>
 
 </div> <!-- end #bill -->
 
-<!-- Scripts -->
+<!-- scripts -->
 <script>
-/* helpers */
+/* Utility helpers */
 function toNumber(id){
   const el = document.getElementById(id);
   if (!el) return 0;
@@ -223,7 +208,7 @@ function toNumber(id){
 }
 function formatINR(n){ return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR'}).format(n); }
 
-/* recalc logic (unchanged) */
+/* Calculation logic */
 function recalc(){
   const asalu = toNumber('asalu');
   const senagalu100 = toNumber('senagalu100');
@@ -256,90 +241,71 @@ function recalc(){
 
 /* wire inputs */
 ['asalu','senagalu100','rate','dimpuPer','labour','transport','other'].forEach(id=>{
-  document.getElementById(id).addEventListener('input', recalc);
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('input', recalc);
 });
 recalc();
 
-/* bill date display (text showing full date DD-MM-YYYY) */
-(function initDate(){
+/* show bill date as DD-MM-YYYY label (not input) */
+(function initDateLabel(){
   const d = new Date();
   const pad = n => n.toString().padStart(2,'0');
   const dd = pad(d.getDate()), mm = pad(d.getMonth()+1), yyyy = d.getFullYear();
   const dateStr = `${dd}-${mm}-${yyyy}`;
   const el = document.getElementById('billDate');
-  if (el) el.value = dateStr;
+  if (el) el.textContent = dateStr;
 })();
 
-/* --- Printing: clone content into a new window and set @page size --- */
-function doPrint(size = 'A4') {
+/* Print function (single Print button) */
+function doPrint(){
   const el = document.getElementById('bill');
-  if (!el) return alert('No bill found to print.');
+  if (!el) return alert('No bill to print.');
   const content = el.outerHTML;
-
-  // gather <style> nodes so the print window keeps the styles
   const styles = Array.from(document.querySelectorAll('style')).map(s => s.outerHTML).join('\n');
-
-  // page style: size depends on requested paper
-  const pageStyle = `<style>@page { size: ${size}; margin: 12mm; } .no-print, .btns { display: none !important; } </style>`;
-
+  const pageStyle = `<style>@page{size:A4;margin:12mm;} .no-print,.btns{display:none!important;} </style>`;
   const win = window.open('', '_blank', 'noopener,width=900,height=1200');
   win.document.open();
-  win.document.write(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"> <title>Print - Bill</title> ${styles} ${pageStyle} </head><body>${content}</body></html>`);
+  win.document.write(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${styles}${pageStyle}</head><body>${content}</body></html>`);
   win.document.close();
-
   setTimeout(()=>{ win.focus(); win.print(); }, 500);
 }
 
-/* --- Generate PDF (better pagination) ---
-   - default size: A4 (you can pass 'A5' or 'A4')
-   - uses html2canvas + jsPDF loaded dynamically
-   - improved mm->px conversion for correct slicing
+/* --- PDF generation: single sensible size and better pagination ---
+   - default page size: A4 portrait (keeps pages small)
+   - smaller scale to avoid long tall canvas
+   - slice canvas into page-height chunks using mm->px conversion
 */
-async function generatePDF(size = 'A4') {
+async function generatePDF(){
   try {
-    const btn = event?.target;
-    if (btn) { btn.disabled = true; btn.textContent = 'Generating PDF...'; }
+    const btn = document.getElementById('generatePdfBtn');
+    btn.disabled = true;
+    btn.textContent = 'Generating...';
 
-    // lazy-load libs
     if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
     if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
 
     const { jsPDF } = window.jspdf;
     const element = document.getElementById('bill');
 
-    // choose scale modestly (higher -> sharper but taller canvas)
-    const scale = 1.2;
+    // choose a modest scale to keep canvas reasonably sized on mobile
+    const scale = 1.0; // 1.0 gives balanced quality vs size
 
-    // render element into canvas
-    const canvas = await html2canvas(element, { scale, useCORS:true, backgroundColor: '#ffffff' });
+    const canvas = await html2canvas(element, { scale, useCORS:true, backgroundColor:'#ffffff' });
 
-    // PDF page sizes in mm
-    const pdfSizesMm = { 'A4': [210,297], 'A5': [148.5,210] };
-    const [pageWidthMm, pageHeightMm] = pdfSizesMm[size] || pdfSizesMm['A4'];
-
-    // convert mm to px for slicing (assuming 96 DPI): px = mm * (dpi / 25.4)
-    const dpi = 96 * scale; // use consistent dpi relative to canvas scale
+    // PDF A4 mm
+    const pageWidthMm = 210, pageHeightMm = 297, marginMm = 8;
+    const dpi = 96 * scale; // px per inch
     const mmToPx = mm => Math.round(mm * (dpi / 25.4));
-    const marginMm = 8;
-    const pageWidthPx = mmToPx(pageWidthMm - marginMm*2);
     const pageHeightPx = mmToPx(pageHeightMm - marginMm*2);
+    const pageWidthPx = mmToPx(pageWidthMm - marginMm*2);
 
-    // total canvas size
-    const fullWidth = canvas.width;
-    const fullHeight = canvas.height;
+    const fullWidth = canvas.width, fullHeight = canvas.height;
 
-    // scale factor to map canvas px to pdf display width (in mm)
-    const pdf = new jsPDF({ unit: 'mm', format: [pageWidthMm, pageHeightMm], orientation: 'portrait' });
-    const pageWidthMMDisplay = pageWidthMm - marginMm*2;
-
-    // compute image display height in mm corresponding to full canvas width
-    const imgDisplayWidthMM = pageWidthMMDisplay;
-    const imgDisplayHeightMM = (fullHeight * imgDisplayWidthMM) / fullWidth; // mm unit when width matched
-
-    // convert each canvas slice (in px) to mm height in PDF via ratio
-    // We'll slice canvas into pageHeightPx chunks
-    let y = 0;
-    let pageIndex = 0;
+    // create pdf
+    const pdf = new jsPDF({ unit:'mm', format:[pageWidthMm,pageHeightMm], orientation:'portrait' });
+    const displayWidthMM = pageWidthMm - marginMm*2;
+    // slice canvas vertically
+    let y = 0, pageIndex = 0;
     while (y < fullHeight) {
       const sliceHeight = Math.min(pageHeightPx, fullHeight - y);
       const tmpCanvas = document.createElement('canvas');
@@ -348,43 +314,87 @@ async function generatePDF(size = 'A4') {
       const ctx = tmpCanvas.getContext('2d');
       ctx.drawImage(canvas, 0, y, fullWidth, sliceHeight, 0, 0, fullWidth, sliceHeight);
       const imgData = tmpCanvas.toDataURL('image/jpeg', 0.92);
-
-      // compute this slice's display height in mm
-      const sliceDisplayHeightMM = (sliceHeight * imgDisplayWidthMM) / fullWidth;
+      const sliceDisplayHeightMM = (sliceHeight * displayWidthMM) / fullWidth;
 
       if (pageIndex > 0) pdf.addPage();
-      pdf.addImage(imgData, 'JPEG', marginMm, marginMm, imgDisplayWidthMM, sliceDisplayHeightMM);
+      pdf.addImage(imgData, 'JPEG', marginMm, marginMm, displayWidthMM, sliceDisplayHeightMM);
 
       y += sliceHeight;
       pageIndex++;
     }
 
-    // finalize
-    const fileName = `bill-${new Date().toISOString().replace(/[:.]/g,'-')}.pdf`;
+    const filename = `bill-${new Date().toISOString().replace(/[:.]/g,'-')}.pdf`;
     const blob = pdf.output('blob');
 
-    // trigger download
+    // download
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = fileName; document.body.appendChild(a); a.click(); a.remove();
+    const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
 
-    // try native share (if supported)
-    if (navigator.canShare && navigator.canShare({ files: [new File([blob], fileName, { type: 'application/pdf' })] })) {
-      try { await navigator.share({ files: [new File([blob], fileName, { type: 'application/pdf' })], title: 'Bill PDF' }); }
-      catch (err) { /* user cancelled share */ }
+    // try native share for files
+    if (navigator.canShare && navigator.canShare({ files: [new File([blob], filename, { type: 'application/pdf' })] })) {
+      try { await navigator.share({ files: [new File([blob], filename, { type: 'application/pdf' })], title: 'Bill PDF' }); } catch(e){ /* may cancel */ }
+    } else {
+      // already downloaded
     }
 
   } catch (err) {
-    console.error(err);
-    alert('Failed to generate PDF — see console for details.');
+    console.error('PDF gen error', err);
+    alert('Failed to create PDF. See console for details.');
   } finally {
-    if (event?.target) { event.target.disabled = false; event.target.textContent = 'Generate PDF (A4)'; }
+    const btn = document.getElementById('generatePdfBtn');
+    if (btn) { btn.disabled = false; btn.textContent = 'Generate PDF'; }
   }
 }
 
-/* load script helper */
-function loadScript(src){ return new Promise((resolve,reject)=>{ const s=document.createElement('script'); s.src=src; s.onload=resolve; s.onerror=reject; document.head.appendChild(s); }); }
+/* --- Share as Image: capture whole bill as one image and share or download --- */
+async function shareAsImage(){
+  try {
+    const btn = document.getElementById('shareImgBtn');
+    btn.disabled = true;
+    btn.textContent = 'Preparing...';
 
+    if (!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+
+    // capture at higher scale for better quality but limited to avoid huge images
+    const scale = 1.5;
+    const canvas = await html2canvas(document.getElementById('bill'), { scale, useCORS:true, backgroundColor:'#ffffff' });
+    // convert to blob (png)
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 0.95));
+
+    const fileName = `bill-${new Date().toISOString().replace(/[:.]/g,'-')}.png`;
+
+    // Try Web Share API with files
+    if (navigator.canShare && navigator.canShare({ files: [new File([blob], fileName, { type: 'image/png' })] })) {
+      try {
+        await navigator.share({ files: [new File([blob], fileName, { type: 'image/png' })], title: 'Bill Image' });
+        btn.textContent = 'Shared';
+        setTimeout(()=> btn.textContent = 'Share Image', 1200);
+        return;
+      } catch (err) {
+        // user cancelled or share not allowed
+        console.warn('Share failed or canceled:', err);
+      }
+    }
+
+    // fallback: download the PNG
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = fileName; document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    alert('Image downloaded. You can share it from your device.');
+
+  } catch (err) {
+    console.error('Share image error', err);
+    alert('Failed to create/share image. Check console for details.');
+  } finally {
+    const btn = document.getElementById('shareImgBtn');
+    if (btn) { btn.disabled = false; btn.textContent = 'Share Image'; }
+  }
+}
+
+/* helper to load scripts dynamically */
+function loadScript(src){ return new Promise((resolve,reject)=>{ if (document.querySelector(`script[src="${src}"]`)) return resolve(); const s=document.createElement('script'); s.src=src; s.onload=resolve; s.onerror=reject; document.head.appendChild(s); }); }
 </script>
+
 </body>
 </html>
