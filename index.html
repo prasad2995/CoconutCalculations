@@ -36,8 +36,8 @@
     .meta-row .item { display:flex; flex-direction:column; gap:6px; }
 
     .bill-header { text-align:center; padding:10px 6px; }
-    .bill-header h1 { margin:4px 0; color: #b91c1c; font-size:1.2rem; font-weight:900; }
-    .bill-header h3 { margin:2px 0; font-size:0.98rem; font-weight:700; }
+    .bill-header h1 { margin:4px 0; color: red; font-size:1.2rem; font-weight:900; }
+    .bill-header h3 { margin:2px 0; color: #004CA3;font-size:0.98rem; font-weight:700; }
 
     .total { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; background:#f0fdf4; border:1px solid #dcfce7; border-radius:8px; font-size:1.02rem; font-weight:700; margin-top:6px; }
 
@@ -77,22 +77,24 @@
 <div class="wrap" id="bill">
 
   <!-- Header -->
-  <div class="card" style="padding:10px; margin-bottom:10px;">
+  <div class="card" style="padding:10px; margin-bottom:10px; ">
     <div class="bill-header">
-      <h1>గీతా ప్రనూష కోనసీమ కోకోనట్ బిజినెస్</h1>
-      <h3>కొనుబడి బిల్లు — మగటపల్లి</h3>
-      <div style="font-weight:700; margin-top:6px;">ప్రో: గుండాబత్తుల ప్రసాద్ | సెల్: 9177682498, 9963153332</div>
+	  <h3 style="color: black;">కొనుబడి బిల్లు</h3>
+      <h1>🌴 గీతా ప్రనూష కోనసీమ కోకోనట్ బిజినెస్ 🌴</h1>
+      <h3>మగటపల్లి</h3>
+      <div style="font-weight:700; margin-top:6px; color: #2D9966;">ప్రో: గుండాబత్తుల ప్రసాద్</div>
+      <div style="font-weight:700; margin-top:6px; color: #A33100;">సెల్: 9177682498, 9963153332</div>
     </div>
 
     <!-- customer name (now larger) and date label -->
     <div class="meta-row" style="margin-top:10px;">
       <div class="item" style="flex:1;">
-        <label style="font-size:0.95rem;">Customer Name</label>
-        <input id="customerName" type="text" placeholder="Enter customer name" class="full" />
+        <label style="font-size:0.95rem;">కొనుగోలుదారు పేరు</label>
+        <input id="customerName" style="width:350px" type="text" placeholder="" class="full" />
       </div>
 
       <div class="item" style="width:160px;">
-        <label style="font-size:0.95rem;">Date</label>
+        <label style="font-size:0.95rem;">తేదీ</label>
         <!-- date shown as plain label (no input borders) -->
         <div id="billDate" style="padding:8px 10px; border-radius:6px; background:transparent; font-weight:700;"></div>
       </div>
@@ -181,18 +183,25 @@
     </div>
   </div>
 
-  <!-- final area: generated date + buttons moved to bottom -->
-  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:12px;">
-    Generated on: <span id="generatedDate"></span>
-  </div>
-
   <!-- Bottom action card -->
-  <div class="card" style="padding:12px; margin-bottom:24px;">
+  <!--div class="card" style="padding:12px; margin-bottom:24px;"-->
     <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-      <button onclick="doPrint()" class="ghost">Print</button>
-      <button class="primary" id="generatePdfBtn" onclick="generatePDF()" title="Generate compact PDF">Generate PDF</button>
+      <!--button onclick="doPrint()" class="ghost">Print</button>
+      <button class="primary" id="generatePdfBtn" onclick="generatePDF()" title="Generate compact PDF">Generate PDF</button-->
       <button id="shareImgBtn" onclick="shareAsImage()">Share Image</button>
     </div>
+  <!--/div-->
+<br>
+
+
+  <!-- final area: generated date + buttons moved to bottom -->
+  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:12px;">
+    This bill is generated on: <span id="generatedDate"></span>
+  </div>
+
+  <!-- final area: generated date + buttons moved to bottom -->
+  <div style="text-align:center; font-size:0.9rem; color:var(--muted); margin-bottom:12px;">
+    Developed and designed by Prasad Punnam</span>
   </div>
 
 </div> <!-- end #bill -->
